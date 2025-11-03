@@ -1,0 +1,133 @@
+=== Página 1 ===
+______________________________________________________________________________________ 
+PRUEBA TÉCNICA PARA PROGRAMADOR 1 GERPRO  
+ 
+Descripción  
+Un proyecto inmobiliario se desarrolla en múltiples torres de apartamentos, cada una de las 
+torres de este conjunto recibe el nombre de “subetapa”, cada subetapa tiene unos ingresos 
+que se dan por la venta de los apartamentos y tiene unos costos que se ejecutan cuando se 
+realiza la construcción del edificio. Para este ejemplo, se tiene como referencia el proyecto 
+“Central Park” que consta de 2 torres de apartamentos, cada una con 45 apartamentos: 
+ 
+ 
+Este proyecto vende los apartamentos desde enero del 2019 y termina las ventas en octubre 
+del 2020, la construcción de los edificios comienza en septiembre del 2019 y termina en febrero 
+del 2021, cada torre de apartamentos tiene su propio inicio de ventas y también su inicio de 
+construcción así (siendo cada columna un mes):  
+ 
+ 
+ 
+___________________________________________________________________________________________________________ 
+www.gerprolatam.com  | info@gerpro.co | 103 #18A-48, Bogotá D.C. 
+V.30.07.25 P1
+
+=== Página 2 ===
+______________________________________________________________________________________ 
+Los ingresos por la venta de los apartamentos están divididos en cuota inicial y pago final, los 
+pagos  finales  los  recibe  la  empresa  constructora,  solamente  cuando  ha  finalizado  la 
+construcción de los apartamentos, por este motivo para realizar la construcción la empresa 
+debe endeudarse (crédito constructor) o poner dinero propio (aportes de capital) para cubrir 
+los costos totales de la construcción, debido a que las cuotas iniciales pagadas por los 
+clientes no cubren la totalidad de la inversión de construcción.  
+ 
+Los ingresos (pagos que realizan los clientes) y los costos (generados por la construcción de la 
+obra) se consolidan mensualmente, la diferencia entre estos dos conceptos se denomina Flujo 
+de caja operativo el cual puede ser o positivo o negativo, en caso de ser positivo quiere decir 
+que los ingresos son superiores a los egresos y en ese caso no se requiere ni deuda ni aporte 
+de capital propio, en caso de ser negativo este valor debe cubrirse con crédito o con aporte de 
+capital.  
+ 
+Flujo de caja operativo (FCO) = Ingresos - Egresos 
+ 
+El proyecto se debe financiar con un crédito constructor (dinero del banco) el cual cuenta con 
+un cupo total, un porcentaje máximo de desembolso (basado en el cupo),  un rango de fechas 
+para desembolsar dinero (no puede superar la fecha del último ingreso) y una tasa de interés. 
+Para las fechas que presenten costos que no están cubiertas por el crédito o en las que haga 
+falta dinero, deben cubrirse con aportes (dinero propio de la constructora) para apalancar la 
+necesidad de caja de ese mes (FCO negativo).  
+ 
+Cuando se hace un desembolso de crédito se genera un saldo a pagar y unos intereses. El 
+saldo a pagar se realiza en los últimos 2 periodos de la línea de ingresos. Los intereses se 
+generan en el mismo mes del desembolso, multiplicando el saldo por la tasa de interés 
+dividida en 12 pero el pago se hace el mes siguiente. El crédito no puede desembolsar para 
+pagarse a sí mismo ni para pagar sus propios intereses. 
+ 
+El resultado de estas líneas es el flujo de caja neto, el cual determina cuánto debe pagar la 
+constructora con aportes de su propio dinero. 
+ 
+Flujo de caja neto (FCN) = FCO + Desembolsos - Intereses pagados - Pago del crédito 
+ 
+A continuación, punto a punto la prueba técnica, tomar como referencia el ejemplo dispuesto 
+al final del documento.  
+ 
+ 
+ 
+ 
+___________________________________________________________________________________________________________ 
+www.gerprolatam.com  | info@gerpro.co | 103 #18A-48, Bogotá D.C. 
+V.30.07.25 P2
+
+=== Página 3 ===
+______________________________________________________________________________________ 
+1. Lógica:  
+ 
+Diseñar una función en python, que reciba como parámetros los datos detallados en un array 
+de diccionarios que tiene la siguiente estructura:  
+ 
+[  
+{ "subetapa": "Torre 1", "valor": 1000, "periodo": 1, "concepto": "ingresos" },  
+{ "subetapa": "Torre 1", "valor": 1000, "periodo": 2, "concepto": "costos" } 
+ ]  
+ 
+Cada registro contiene la subetapa a la que pertenece, el valor del movimiento, el periodo (no 
+es una fecha, es equivalente a la posición del mes dentro de una tabla total de meses, ver 
+ejemplo al final) y el concepto (ingresos o costos).  
+ 
+La función debe recibir como parámetros adicionales:  
+● Cupo del crédito 
+● Porcentaje máximo desembolso mensual  
+● Periodo inicial de crédito  
+● Periodo final de crédito  
+● Tasa de interés 
+ 
+La función debe retornar dos estructuras de datos una con los datos del desembolso del 
+crédito y otra de los aportes (ver ejemplo detallado al final, fila 9 y 17) Tomar los datos de:  
+https://storage.googleapis.com/siga-cdn-bucket/temporal_dm/datos_gerpro_prueba.json 
+ 
+ 
+2. Django:  
+Tomando referencia el caso anterior, se requiere desarrollar los modelos para guardar los 
+datos en la base de datos, relacionados al crédito, los ingresos y los costos, así como las 
+subetapas, teniendo en cuenta que las subetapas pertenecen a un proyecto.  
+Se deben definir el modelo entidad relación para este caso y el equivalente en models de 
+Django.  
+Entregable: archivo models.py 
+ 
+ 
+3. Conversación sobre posibles escenarios de optimización del caso:  
+Reunión  de  conversación  para  abordar  conceptualmente  el  problema,  sesión  2  de  la 
+entrevista. 
+ 
+ 
+___________________________________________________________________________________________________________ 
+www.gerprolatam.com  | info@gerpro.co | 103 #18A-48, Bogotá D.C. 
+V.30.07.25 P3
+
+=== Página 4 ===
+______________________________________________________________________________________ 
+Ejemplo:  
+Torre 1 ventas de $11000 distribuidas de enero del 2019 hasta noviembre del mismo año  
+Torre 2 ventas de $12000 distribuidas de noviembre del 2019 hasta octubre del 2020.  
+Torre 1 costos de $15000 distribuidos de septiembre del 2019 hasta junio del 2020 
+Torre 2 costos de $8250 distribuidos de abril del 2020 hasta febrero del 2021.  
+ 
+Credito constructor, cupo de $7000, máximo desembolso por mes del 8%, entre fechas septiembre del 2019 hasta noviembre del 
+2020 con tasa de interés del 12%. 
+ 
+Se debe calcular cuándo y cuánto debe desembolsar el crédito constructor y en caso que no alcance a cubrir los costos cuándo y 
+cuánto aporta la constructora para poder encontrar el Flujo de caja apalancado el cual nunca puede ser negativo. 
+ 
+ 
+___________________________________________________________________________________________________________ 
+www.gerprolatam.com  | info@gerpro.co | 103 #18A-48, Bogotá D.C. 
+V.30.07.25 P4
